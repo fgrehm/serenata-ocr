@@ -9,6 +9,8 @@
   "author": "Fabio Rehm <fgrehm@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "claudia-api-builder": "^2.5.1"
+    "claudia-api-builder": "^2.5.1",
+    "node-fetch": "^1.7.3",
+    "promise": "^8.0.1"
   }
 }
