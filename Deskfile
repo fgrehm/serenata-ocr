@@ -1,6 +1,26 @@
 # vi: ft=sh
+# Description: desk for doing work on serenata-ocr
 
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+if [ -d "${HOME}/.nvm" ]; then
+  if [ -z "${NVM_BIN}" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    source "/usr/local/opt/nvm/nvm.sh"
+    nvm use 'v6.10.3'
+  fi
+fi
 
-nvm use 'v6.12.0'
+if ! $(node --version | grep -q 'v6.10'); then
+  echo 'WARNING: Using an unsupported node version'
+fi
+
+
+# Run `claudia create` with the appropriate params
+alias setup='claudia create --region us-east-1 --api-module app --timeout 60 --memory 512'
+
+# Run `claudia update`
+alias deploy='claudia update'
+
+# Alias to setup
+alias s='setup'
+# Alias to deploy
+alias d='deploy'
