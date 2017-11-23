@@ -1,0 +1,14 @@
+{
+  "name": "serenata-ocr",
+  "version": "0.1.0",
+  "description": "API for OCRing Serenata de Amor documents",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fabio Rehm <fgrehm@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "claudia-api-builder": "^2.5.1"
+  }
+}
