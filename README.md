@@ -18,6 +18,9 @@ At the end of `claudia create` you'll get an url, to test it run:
 
 ```sh
 API="https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/latest/chamber-of-deputies/receipt"
+curl "${API}/applicant_id/year/document_id"
+
+# Example:
 curl "${API}/1789/2015/5631309"
 ```
 
@@ -26,3 +29,7 @@ curl "${API}/1789/2015/5631309"
 - [x] Make it work
 - [ ] Give pdfjs another shot
 - [ ] Use a more recent version of imagemagick
+
+[site-serenata]: https://serenatadeamor.org/
+[site-claudia]: https://claudiajs.com/
+[site-google-cloud-vision]: https://cloud.google.com/vision/docs/
