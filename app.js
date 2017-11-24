@@ -7,9 +7,11 @@ module.exports = api;
 
 api.get('/chamber-of-deputies/receipt/{applicantId}/{year}/{documentId}', function (req) {
   const request = {
-    applicantId: req.pathParams.applicantId,
-    year: req.pathParams.year,
-    documentId: req.pathParams.documentId,
+    reimbursement: {
+      applicantId: req.pathParams.applicantId,
+      year: req.pathParams.year,
+      documentId: req.pathParams.documentId
+    },
     config: {
       ocrFeature: req.queryString.ocrFeature,
       languageHint: req.queryString.languageHint,

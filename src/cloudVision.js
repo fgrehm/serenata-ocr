@@ -33,11 +33,11 @@ function cloudVision({ languageHint, ocrFeature }) {
       body: JSON.stringify(payload),
       timeout: 50000
     };
-    console.log("Will OCR");
+    console.warn("Will OCR");
 
     return fetch(`https://vision.clients6.google.com/v1/images:annotate?key=${apiKey}`, opts).
       then(resp => {
-        console.log("Finished OCR");
+        console.warn("Finished OCR");
         return resp.json();
       }).then(json => {
         return json.responses[0];

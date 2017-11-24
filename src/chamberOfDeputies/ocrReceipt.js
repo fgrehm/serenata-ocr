@@ -15,7 +15,7 @@ function fetchReceipt({ applicantId, year, documentId }) {
 
     return r.buffer().then((buffer) => {
       fs.writeFileSync("/tmp/receipt.pdf", buffer);
-      console.log("PDF saved")
+      console.warn("PDF saved")
       return "/tmp/receipt.pdf";
     });
   });
@@ -62,7 +62,7 @@ function handleCloudVisionResponse(config) {
   };
 }
 
-module.exports = ({ applicantId, year, documentId, config }) => {
+module.exports = ({ reimbursement, config }) => {
   setConfigDefaults(config);
 
   // TODO: Validate if any of the params is missing / blank
@@ -70,8 +70,9 @@ module.exports = ({ applicantId, year, documentId, config }) => {
     if (!validConfig(config)) {
       throw new Error(`Invalid configuration provided: ${JSON.stringify(config)}`);
     }
+    console.warn(`Config: ${JSON.stringify(config)}`);
 
-    fetchReceipt({ applicantId, year, documentId }).
+    fetchReceipt(reimbursement).
       then(pdfToPng(config)).
       then(cloudVision(config)).
       then(handleCloudVisionResponse(config)).

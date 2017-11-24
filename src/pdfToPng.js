@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 
 const Promise = require('promise');
 
-const pdfToPng = ({ deskew, density }) => {
+function pdfToPng({ deskew, density }) {
   if (deskew) {
     deskew = `-deskew ${deskew}%`;
   } else {
@@ -10,7 +10,6 @@ const pdfToPng = ({ deskew, density }) => {
   }
 
   return (input) => {
-    console.log(`deskew ${deskew}, density ${density}`);
     const output = "/tmp/receipt.png";
     return new Promise((resolve, reject) => {
       // Cant user higher density, google doesnt like it when generated from the
@@ -19,7 +18,7 @@ const pdfToPng = ({ deskew, density }) => {
         if (err) {
           reject(new Error(`Error generating PNG: ${err.message}\nstdout:${stdout}\nstderr${stderr}`));
         } else {
-          console.log("PNG generated")
+          console.warn("PNG generated")
           resolve(output);
         }
       });
