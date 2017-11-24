@@ -6,7 +6,14 @@ const ocrReceipt = require('./ocrReceipt');
 module.exports = api;
 
 api.get('/chamber-of-deputies/receipt/{applicantId}/{year}/{documentId}', function (req) {
-  return ocrReceipt(req.pathParams).catch((err) => {
+  const request = {
+    applicantId: req.pathParams.applicantId,
+    year: req.pathParams.year,
+    documentId: req.pathParams.documentId,
+    languageHint: req.queryString.languageHint,
+    deskew: req.queryString.deskew,
+  };
+  return ocrReceipt(request).catch((err) => {
     return new api.ApiResponse(err.message, {'Content-Type': 'text/plain'}, 500);
   });
 });
