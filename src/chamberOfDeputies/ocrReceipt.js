@@ -6,7 +6,7 @@ const Promise = require('promise');
 const pdfToPng = require('../pdfToPng');
 const cloudVision = require('../cloudVision');
 
-const fetchReceipt = ({ applicantId, year, documentId }) => {
+function fetchReceipt({ applicantId, year, documentId }) {
   const url = `http://www.camara.gov.br/cota-parlamentar/documentos/publ/${applicantId}/${year}/${documentId}.pdf`;
   return fetch(url).then((r) => {
     if (!r.ok) {
@@ -21,24 +21,41 @@ const fetchReceipt = ({ applicantId, year, documentId }) => {
   });
 };
 
-module.exports = ({ applicantId, year, documentId, languageHint, deskew, density }) => {
-  if (languageHint === undefined) {
-    languageHint = 'pt';
-  } else if (languageHint === 'none') {
-    languageHint = null;
+function setConfigDefaults(config) {
+  if (config.languageHint === undefined) {
+    config.languageHint = 'pt';
+  } else if (config.languageHint === 'none') {
+    config.languageHint = null;
   }
 
-  if (deskew === 'no') {
-    deskew = false;
+  if (config.deskew === 'no') {
+    config.deskew = false;
   } else {
-    deskew = true;
+    config.deskew = true;
   }
+
+  if (config.ocrFeature === undefined) {
+    config.ocrFeature = 'gcloud_document_text';
+  }
+};
+
+function validConfig({ ocrFeature }) {
+  return ocrFeature === 'gcloud_document_text'
+    || ocrFeature === 'gcloud_text';
+}
+
+module.exports = ({ applicantId, year, documentId, config }) => {
+  setConfigDefaults(config);
 
   // TODO: Validate if any of the params is missing / blank
   return new Promise((resolve, reject) => {
+    if (!validConfig(config)) {
+      throw new Error(`Invalid configuration provided: ${JSON.stringify(config)}`);
+    }
+
     fetchReceipt({ applicantId, year, documentId }).
-      then(pdfToPng(deskew, density)).
-      then(cloudVision(languageHint)).
+      then(pdfToPng(config)).
+      then(cloudVision(config)).
       then(resolve).
       catch(reject);
   })

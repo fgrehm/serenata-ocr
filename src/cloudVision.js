@@ -5,19 +5,23 @@ const fetch = require('node-fetch');
 // TODO: Load from config file
 const apiKey = '...';
 
-const cloudVision = (languageHint) => {
+function cloudVision({ languageHint, ocrFeature }) {
   const imageContext = { };
   if (languageHint) {
     imageContext.languageHints = [languageHint];
   }
 
-  console.log(`lang ${languageHint}`);
+  let featureType = 'TEXT_DETECTION';
+  if (ocrFeature === 'gcloud_document_text') {
+    featureType = 'DOCUMENT_TEXT_DETECTION';
+  }
 
   return (receiptImagePath) => {
+    console.log(`lang ${languageHint}, ocrFeature ${featureType}`);
     const payload = {
       requests: [
         {
-          features: [ { type: "DOCUMENT_TEXT_DETECTION" } ],
+          features: [ { type: featureType } ],
           image: { content: new Buffer(fs.readFileSync(receiptImagePath)).toString('base64') },
           imageContext
         }
