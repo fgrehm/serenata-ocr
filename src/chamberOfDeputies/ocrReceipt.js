@@ -66,7 +66,7 @@ function handleCloudVisionResponse(extra, config) {
 module.exports = ({ reimbursement, config }) => {
   setConfigDefaults(config);
 
-  // TODO: Validate if any of the params is missing / blank
+  // TODO: Validate if any of the reimbursement params is missing / blank
   return new Promise((resolve, reject) => {
     if (!validConfig(config)) {
       throw new Error(`Invalid configuration provided: ${JSON.stringify(config)}`);
@@ -74,6 +74,8 @@ module.exports = ({ reimbursement, config }) => {
     console.warn(`Config: ${JSON.stringify(config)}`);
     let extra = { };
 
+    // TODO: Check if document has more than 5 pages, adjust configs
+    //       and return warning in extra
     fetchReceipt(reimbursement).
       then(pdfPath => {
         return pdfPagesCount(pdfPath).then((pages) => {
