@@ -13,14 +13,15 @@ if ! $(node --version | grep -q 'v6.10'); then
   echo 'WARNING: Using an unsupported node version'
 fi
 
+export PATH="./node_modules/.bin:${PATH}"
 
 # Run `claudia create` with the appropriate params
-alias setup='claudia create --region us-east-1 --api-module app --timeout 60 --memory 512'
+alias setup='claudia create --region us-east-1 --api-module app --timeout 90 --memory 1024'
 
 # Run `claudia update`
 alias deploy='claudia update'
 
-# Alias to setup
-alias s='setup'
 # Alias to deploy
 alias d='deploy'
+# Alias to setup
+alias s='setup'
