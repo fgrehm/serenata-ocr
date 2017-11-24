@@ -22,15 +22,17 @@ const fetchReceipt = ({ applicantId, year, documentId }) => {
   });
 };
 
-const convertPdfToPng = (deskew) => {
-  console.log(`deskew ${deskew}`);
-  let density = '300';
+const convertPdfToPng = (deskew, density) => {
+  density = parseInt(density, 10) || 300;
   if (deskew) {
     deskew = '-deskew 40%';
   } else {
-    density = '175';
+    if (density > 175) {
+      density = 175;
+    }
     deskew = '';
   }
+  console.log(`deskew ${deskew}, density ${density}`);
 
   return (input) => {
     const output = "/tmp/receipt.png";
@@ -86,7 +88,7 @@ const ocr = (languageHint) => {
   }
 }
 
-module.exports = ({ applicantId, year, documentId, languageHint, deskew }) => {
+module.exports = ({ applicantId, year, documentId, languageHint, deskew, density }) => {
   if (languageHint === undefined) {
     languageHint = 'pt';
   } else if (languageHint === 'none') {
@@ -102,7 +104,7 @@ module.exports = ({ applicantId, year, documentId, languageHint, deskew }) => {
   // TODO: Validate if any of the params is missing / blank
   return new Promise((resolve, reject) => {
     fetchReceipt({ applicantId, year, documentId }).
-      then(convertPdfToPng(deskew)).
+      then(convertPdfToPng(deskew, density)).
       then(ocr(languageHint)).
       then(resolve).
       catch(reject);
