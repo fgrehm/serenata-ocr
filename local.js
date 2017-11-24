@@ -1,3 +1,8 @@
+var fs = require('fs');
+var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+process.env.GOOGLE_CLOUD_VISION_API_KEY = config.GOOGLE_CLOUD_VISION_API_KEY;
+
 const app = require('./app');
 
 const request = {

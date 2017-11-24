@@ -16,10 +16,13 @@ fi
 export PATH="./node_modules/.bin:${PATH}"
 
 # Run `claudia create` with the appropriate params
-alias setup='claudia create --region us-east-1 --api-module app --timeout 90 --memory 1024'
+alias setup='claudia create --region us-east-1 --api-module app --timeout 90 --memory 1024 --set-env-from-json config.json --version production'
 
 # Run `claudia update`
 alias deploy='claudia update'
+
+# Update env vars based on config file
+alias set-env='claudia update --set-env-from-json config.json'
 
 # Alias to deploy
 alias d='deploy'

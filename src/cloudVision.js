@@ -2,8 +2,7 @@ const fs = require('fs');
 
 const fetch = require('node-fetch');
 
-// TODO: Load from config file
-const apiKey = '...';
+const apiKey = process.env.GOOGLE_CLOUD_VISION_API_KEY;
 
 function cloudVision({ languageHint, ocrFeature }) {
   const imageContext = { };
@@ -37,7 +36,10 @@ function cloudVision({ languageHint, ocrFeature }) {
 
     return fetch(`https://vision.clients6.google.com/v1/images:annotate?key=${apiKey}`, opts).
       then(resp => {
-        console.warn("Finished OCR");
+        console.warn("Finished OCR", resp.ok);
+        if (!resp.ok) {
+          throw new Error(`Error OCRing image: ${resp.status} ${resp.statusText}`);
+        }
         return resp.json();
       }).then(json => {
         return json.responses[0];
