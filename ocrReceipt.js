@@ -60,6 +60,8 @@ const ocr = (receiptImagePath) => {
     then(resp => {
       console.log("Finished OCR");
       return resp.json();
+    }).then(json => {
+      return json.responses[0];
     });
 }
 
