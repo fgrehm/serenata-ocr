@@ -8,7 +8,7 @@
   },
   "files": [
     "app.js",
-    "ocrReceipt.js"
+    "src"
   ],
   "author": "Fabio Rehm <fgrehm@gmail.com>",
   "license": "MIT",

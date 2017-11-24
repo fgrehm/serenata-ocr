@@ -1,7 +1,7 @@
 const ApiBuilder = require('claudia-api-builder');
 const api = new ApiBuilder();
 const fs = require('fs');
-const ocrReceipt = require('./ocrReceipt');
+const ocrReceipt = require('./src/chamberOfDeputies/ocrReceipt');
 
 module.exports = api;
 
