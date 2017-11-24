@@ -1,0 +1,17 @@
+# vi: ft=sh
+
+API="https://5f5fqii0fd.execute-api.us-east-1.amazonaws.com/latest/chamber-of-deputies/receipt"
+EXTRA="ocrFeature=gcloud_text&density=175&deskew=no"
+SUFFIX="-gcloud_text-pt-deskew-no-density-175"
+
+set -x
+curl "${API}/1564/2016/5928875?${EXTRA}" > "5928875${SUFFIX}.json"
+curl "${API}/1789/2015/5631309?${EXTRA}" > "5631309${SUFFIX}.json"
+curl "${API}/1789/2015/5631380?${EXTRA}" > "5631380${SUFFIX}.json"
+curl "${API}/2238/2015/5855221?${EXTRA}" > "5855221${SUFFIX}.json"
+curl "${API}/2238/2015/5856784?${EXTRA}" > "5856784${SUFFIX}.json"
+curl "${API}/2871/2016/5921187?${EXTRA}" > "5921187${SUFFIX}.json"
+curl "${API}/2935/2016/6069360?${EXTRA}" > "6069360${SUFFIX}.json"
+curl "${API}/3052/2016/5962849?${EXTRA}" > "5962849${SUFFIX}.json"
+curl "${API}/3052/2016/5962903?${EXTRA}" > "5962903${SUFFIX}.json"
+curl "${API}/80/2015/5768932?${EXTRA}"   > "5768932${SUFFIX}.json"
