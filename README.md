@@ -11,6 +11,7 @@ A Serverless API for OCRing [Serenata de Amor][site-serenata]'s documents
 ```sh
 # Ensure you use NodeJS 6.10
 npm install -g claudia
+yarn install
 claudia create --region us-east-1 --api-module app --timeout 60 --memory 512
 ```
 
