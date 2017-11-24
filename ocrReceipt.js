@@ -5,13 +5,7 @@ const { exec } = require('child_process');
 const Promise = require('promise');
 
 // TODO: Load from config file
-const visionClient = require('@google-cloud/vision')({
-  projectId: 'serenata-ocr',
-  credentials: {
-    private_key: ".....",
-    client_email: "...."
-  }
-});
+const apiKey = '...';
 
 const fetchReceipt = ({ applicantId, year, documentId }) => {
   const url = `http://www.camara.gov.br/cota-parlamentar/documentos/publ/${applicantId}/${year}/${documentId}.pdf`;
@@ -31,7 +25,9 @@ const fetchReceipt = ({ applicantId, year, documentId }) => {
 const convertPdfToPng = (input) => {
   const output = "/tmp/receipt.png";
   return new Promise((resolve, reject) => {
-    exec(`convert -density 300 ${input} -quality 100 -append ${output}`, (err, stdout, stderr) => {
+    // Cant user higher density, google doesnt like it when generated from the
+    // image magick version installed on lambda
+    exec(`convert -density 175 ${input} -quality 100 -append ${output}`, (err, stdout, stderr) => {
       if (err) {
         reject(new Error(`Error generating PNG: ${err.message}\nstdout:${stdout}\nstderr${stderr}`));
       } else {
@@ -43,15 +39,27 @@ const convertPdfToPng = (input) => {
 };
 
 const ocr = (receiptImagePath) => {
-  const image = { source: { filename: receiptImagePath } };
+  // TODO: Check if giving a languageHint for pt lang yields better results
+  const payload = {
+    requests: [
+      {
+        features: [ { type: "DOCUMENT_TEXT_DETECTION" } ],
+        image: { content: new Buffer(fs.readFileSync(receiptImagePath)).toString('base64') }
+      }
+    ]
+  };
+
+  const opts = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  };
   console.log("Will OCR");
 
-  // TODO: Check if giving a languageHint for pt lang yields better results, needs to brute force that as per:
-  //        https://github.com/GoogleCloudPlatform/google-cloud-node/issues/2553
-  return vision.documentTextDetection(image).
-    then((resp) => {
+  return fetch(`https://vision.clients6.google.com/v1/images:annotate?key=${apiKey}`, opts).
+    then(resp => {
       console.log("Finished OCR");
-      return resp[0];
+      return resp.json();
     });
 }
 
