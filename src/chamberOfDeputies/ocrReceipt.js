@@ -3,8 +3,9 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const Promise = require('promise');
 
-const pdfToPng = require('../pdfToPng');
 const cloudVision = require('../cloudVision');
+const pdfToPng = require('../pdfToPng');
+const pdfPagesCount = require('../pdfPagesCount');
 
 function fetchReceipt({ applicantId, year, documentId }) {
   const url = `http://www.camara.gov.br/cota-parlamentar/documentos/publ/${applicantId}/${year}/${documentId}.pdf`;
@@ -53,12 +54,12 @@ function validConfig({ ocrFeature }) {
     || ocrFeature === 'gcloud_text';
 }
 
-function handleCloudVisionResponse(config) {
-  return (response) => {
-    if (response.textAnnotations === undefined) {
+function handleCloudVisionResponse(extra, config) {
+  return (ocrResponse) => {
+    if (ocrResponse.textAnnotations === undefined) {
       throw new Error(`No response received or timed out. Configs: ${JSON.stringify(config)}`);
     }
-    return { config, response };
+    return { extra, config, ocrResponse };
   };
 }
 
@@ -71,11 +72,18 @@ module.exports = ({ reimbursement, config }) => {
       throw new Error(`Invalid configuration provided: ${JSON.stringify(config)}`);
     }
     console.warn(`Config: ${JSON.stringify(config)}`);
+    let extra = { };
 
     fetchReceipt(reimbursement).
+      then(pdfPath => {
+        return pdfPagesCount(pdfPath).then((pages) => {
+          extra.pages = pages;
+          return pdfPath;
+        });
+      }).
       then(pdfToPng(config)).
       then(cloudVision(config)).
-      then(handleCloudVisionResponse(config)).
+      then(handleCloudVisionResponse(extra, config)).
       then(resolve).
       catch(reject);
   })
