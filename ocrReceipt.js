@@ -66,7 +66,7 @@ const ocr = (receiptImagePath) => {
 }
 
 module.exports = ({ applicantId, year, documentId }) => {
-  // TODO: Validate if any of them is missing / blank
+  // TODO: Validate if any of the params is missing / blank
   return new Promise((resolve, reject) => {
     fetchReceipt({ applicantId, year, documentId }).
       then(convertPdfToPng).
