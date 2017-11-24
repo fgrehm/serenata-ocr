@@ -28,10 +28,19 @@ function setConfigDefaults(config) {
     config.languageHint = null;
   }
 
+  if (config.density === undefined) {
+    config.density = 300;
+  } else {
+    config.density = parseInt(config.density, 10) || 300;
+  }
+
   if (config.deskew === 'no') {
     config.deskew = false;
+    if (config.density > 175) {
+      config.density = 175;
+    }
   } else {
-    config.deskew = true;
+    config.deskew = 40;
   }
 
   if (config.ocrFeature === undefined) {
@@ -42,6 +51,15 @@ function setConfigDefaults(config) {
 function validConfig({ ocrFeature }) {
   return ocrFeature === 'gcloud_document_text'
     || ocrFeature === 'gcloud_text';
+}
+
+function handleCloudVisionResponse(config) {
+  return (response) => {
+    if (response.textAnnotations === undefined) {
+      throw new Error(`No response received or timed out. Configs: ${JSON.stringify(config)}`);
+    }
+    return { config, response };
+  };
 }
 
 module.exports = ({ applicantId, year, documentId, config }) => {
@@ -56,6 +74,7 @@ module.exports = ({ applicantId, year, documentId, config }) => {
     fetchReceipt({ applicantId, year, documentId }).
       then(pdfToPng(config)).
       then(cloudVision(config)).
+      then(handleCloudVisionResponse(config)).
       then(resolve).
       catch(reject);
   })

@@ -17,7 +17,6 @@ function cloudVision({ languageHint, ocrFeature }) {
   }
 
   return (receiptImagePath) => {
-    console.log(`lang ${languageHint}, ocrFeature ${featureType}`);
     const payload = {
       requests: [
         {
@@ -31,7 +30,8 @@ function cloudVision({ languageHint, ocrFeature }) {
     const opts = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      timeout: 50000
     };
     console.log("Will OCR");
 
