@@ -1,6 +1,6 @@
 # vi: ft=sh
 
-API="https://5f5fqii0fd.execute-api.us-east-1.amazonaws.com/latest/chamber-of-deputies/receipt"
+API="https://$(jq -r '.api.id' claudia.json).execute-api.us-east-1.amazonaws.com/latest/chamber-of-deputies/receipt"
 EXTRA="ocrFeature=gcloud_text&density=175&deskew=no"
 SUFFIX="-gcloud_text-pt-deskew-no-density-175"
 
