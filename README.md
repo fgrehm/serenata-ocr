@@ -4,6 +4,12 @@ A Serverless API for OCRing [Serenata de Amor][serenata]'s documents
 (currently limited to Chamber of Deputies receipts). Powered by
 [Claudia.JS][claudia] and [Google Cloud Vision][google-cloud-vision].
 
+## From zero to an OCR API in minutes
+
+![serenata-ocr](https://user-images.githubusercontent.com/81859/33225931-5ccaed5e-d168-11e7-97b3-14f9f5d6f58c.gif)
+
+_https://asciinema.org/a/149404_
+
 ## Initial setup
 
 In terms of tools / development stuff, while a Docker environment is in the
@@ -36,19 +42,22 @@ claudia create --region us-east-1 \
                --api-module app \
                --timeout 60 \
                --memory 512 \
-               --set-env-from-json config.json \
-               --version production
+               --set-env-from-json config.json
 ```
 
 At the end of `claudia create` you'll get an url, to test it run:
 
 ```sh
 API="https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/latest/chamber-of-deputies/receipt"
-# Single liner if you have `jq` installed
+# One liner if you have `jq` installed
 API="https://$(jq -r '.api.id' claudia.json).execute-api.us-east-1.amazonaws.com/latest/chamber-of-deputies/receipt"
 
-# OCR a document and save it to a JSON file:
-curl "${API}/2935/2016/6069360" > 6069360.json
+# OCR a receipt and get the full text of the PDF
+curl "${API}/1789/2015/5631380" > 5631380.json
+
+# Play with the data
+jq '.config + .extra' 5631380.json
+jq '.ocrResponse.fullTextAnnotation.text' 5631380.json
 ```
 
 ## Documentation
