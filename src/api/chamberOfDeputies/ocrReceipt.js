@@ -3,9 +3,8 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 const Promise = require("promise");
 
-const cloudVision = require("../cloudVision");
-const pdfToPng = require("../pdfToPng");
-const pdfPagesCount = require("../pdfPagesCount");
+const { cloudVision } = require("../../providers");
+const { pdfToPng, pdfPagesCount } = require("../../pdf");
 
 function fetchReceipt({ applicantId, year, documentId }) {
   const url = `http://www.camara.gov.br/cota-parlamentar/documentos/publ/${applicantId}/${year}/${documentId}.pdf`;
