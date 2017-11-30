@@ -1,12 +1,12 @@
-const { exec } = require('child_process');
+const { exec } = require("child_process");
 
-const Promise = require('promise');
+const Promise = require("promise");
 
 function pdfToPng({ deskew, density }) {
   if (deskew) {
     deskew = `-deskew ${deskew}%`;
   } else {
-    deskew = '';
+    deskew = "";
   }
 
   return (input) => {
@@ -18,12 +18,12 @@ function pdfToPng({ deskew, density }) {
         if (err) {
           reject(new Error(`Error generating PNG: ${err.message}\nstdout:${stdout}\nstderr${stderr}`));
         } else {
-          console.warn("PNG generated")
+          console.warn("PNG generated");
           resolve(output);
         }
       });
     });
   };
-};
+}
 
 module.exports = pdfToPng;

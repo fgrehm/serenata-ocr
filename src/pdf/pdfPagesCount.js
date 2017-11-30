@@ -1,6 +1,6 @@
-const { exec } = require('child_process');
+const { exec } = require("child_process");
 
-const Promise = require('promise');
+const Promise = require("promise");
 
 const pdfPagesCount = (pdfFile) => {
   return new Promise((resolve, reject) => {
