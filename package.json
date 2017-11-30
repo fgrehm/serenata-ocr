@@ -2,12 +2,12 @@
   "name": "serenata-ocr",
   "version": "0.1.0",
   "description": "API for OCRing Serenata de Amor documents",
-  "main": "app.js",
+  "main": "src/api.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "yarn run lint && yarn run unit",
+    "unit": "yarn run mocha test/unit/**"
   },
   "files": [
-    "app.js",
     "src"
   ],
   "author": "Fabio Rehm <fgrehm@gmail.com>",
@@ -16,5 +16,9 @@
     "claudia-api-builder": "^2.5.1",
     "node-fetch": "^1.7.3",
     "promise": "^8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.0",
+    "mocha": "^4.0.1"
   }
 }

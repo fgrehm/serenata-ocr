@@ -59,6 +59,7 @@ function handleCloudVisionResponse(extra, config) {
     if (ocrResponse.textAnnotations === undefined) {
       throw new Error(`No response received or timed out. Configs: ${JSON.stringify(config)}`);
     }
+    // Return reimbursement info as well
     return { extra, config, ocrResponse };
   };
 }

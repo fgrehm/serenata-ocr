@@ -1,11 +1,9 @@
 const ApiBuilder = require('claudia-api-builder');
 const api = new ApiBuilder();
 const fs = require('fs');
-const ocrReceipt = require('./src/chamberOfDeputies/ocrReceipt');
+const { receiptEndpoint } = require('./api/chamberOfDeputies');
 
-module.exports = api;
-
-api.get('/chamber-of-deputies/receipt/{applicantId}/{year}/{documentId}', function (req) {
+function receiptEndpoint(req) {
   const request = {
     reimbursement: {
       applicantId: req.pathParams.applicantId,
@@ -23,4 +21,8 @@ api.get('/chamber-of-deputies/receipt/{applicantId}/{year}/{documentId}', functi
     // TODO: Return JSON with more info, better than raw text
     return new api.ApiResponse(err.message, {'Content-Type': 'text/plain'}, 500);
   });
-});
+};
+
+module.exports = api;
+
+api.get('/chamber-of-deputies/receipt/{applicantId}/{year}/{documentId}', receiptEndpoint);
