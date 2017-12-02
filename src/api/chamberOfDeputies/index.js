@@ -1,4 +1,4 @@
-const ocrReceipt = require('./ocrReceipt');
+const ocrReceipt = require("./ocrReceipt");
 
 function receiptEndpoint(api) {
   return (req) => {
@@ -17,9 +17,9 @@ function receiptEndpoint(api) {
     };
     return ocrReceipt(request).catch((err) => {
       // TODO: Return JSON with more info, better than raw text
-      return new api.ApiResponse(err.message, {'Content-Type': 'text/plain'}, 500);
+      return new api.ApiResponse(err.message, {"Content-Type": "text/plain"}, 500);
     });
   };
-};
+}
 
 module.exports = { receiptEndpoint };

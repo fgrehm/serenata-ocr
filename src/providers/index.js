@@ -1,2 +1,2 @@
-const cloudVision = require('./cloudVision');
+const cloudVision = require("./cloudVision");
 module.exports = { cloudVision };
