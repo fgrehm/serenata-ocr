@@ -59,7 +59,14 @@ function handleCloudVisionResponse(extra, config) {
     if (ocrResponse.textAnnotations === undefined) {
       throw new Error(`No response received or timed out. Configs: ${JSON.stringify(config)}`);
     }
-    return { extra, config, ocrResponse };
+    const response = { pages: extra.pages, config };
+
+    if (config.raw)
+      response.raw = ocrResponse;
+    else
+      response.text = ocrResponse.fullTextAnnotation.text
+
+    return response;
   };
 }
 

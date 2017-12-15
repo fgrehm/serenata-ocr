@@ -17,6 +17,7 @@ api.get('/chamber-of-deputies/receipt/{applicantId}/{year}/{documentId}', functi
       languageHint: req.queryString.languageHint,
       deskew: req.queryString.deskew,
       density: req.queryString.density,
+      raw: req.queryString.raw == '1' || false
     }
   };
   return ocrReceipt(request).catch((err) => {

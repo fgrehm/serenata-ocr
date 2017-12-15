@@ -12,11 +12,12 @@ const request = {
   },
   queryStringParameters: {
     // languageHint: 'none',
-    ocrFeature: 'gcloud_text'
+    ocrFeature: 'gcloud_text',
+    raw: '1',
   },
   pathParameters: {
-    applicantId: 1789, year: 2015, documentId: 5631309
-    // applicantId: 2241, year: 2016, documentId: 6059587
+    // applicantId: 1789, year: 2015, documentId: 5631309
+    applicantId: 2241, year: 2016, documentId: 6059587
   }
 }
 
