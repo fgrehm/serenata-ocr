@@ -13,11 +13,25 @@ const request = {
   queryStringParameters: {
     // languageHint: 'none',
     ocrFeature: 'gcloud_text',
-    raw: '1',
+    // density: 175,
+    // raw: '1',
+    // shave: 'none',
+    // trim: 'none'
   },
   pathParameters: {
-    // applicantId: 1789, year: 2015, documentId: 5631309
-    applicantId: 2241, year: 2016, documentId: 6059587
+    // applicantId: 2241, year: 2016, documentId: 6059587,
+    // applicantId: 1564, year: 2016, documentId: 5928875,
+    // applicantId: 1789, year: 2015, documentId: 5631309,
+    // applicantId: 1789, year: 2015, documentId: 5631380,
+    // applicantId: 2238, year: 2015, documentId: 5855221,
+    // applicantId: 2238, year: 2015, documentId: 5856784,
+    // applicantId: 2871, year: 2016, documentId: 5921187,
+    // applicantId: 2935, year: 2016, documentId: 6069360,
+    applicantId: 3052, year: 2016, documentId: 5962849,
+    // applicantId: 3052, year: 2016, documentId: 5962903,
+
+    // This seems to only works with gcloud_document_text
+    // applicantId: 80, year: 2015, documentId: 5768932,
   }
 }
 

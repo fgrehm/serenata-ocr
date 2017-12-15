@@ -37,12 +37,22 @@ function setConfigDefaults(config) {
 
   if (config.deskew === 'no') {
     config.deskew = false;
+    // Cant user higher density if deskew is disabled, google doesnt like it
+    // when generated from the image magick version installed on lambda
     if (config.density > 175) {
       config.density = 175;
     }
-  } else {
+  } else { // FIXME: Should support setting the deskew from the url
     config.deskew = 40;
   }
+
+  if (config.shave === 'none') {
+    config.shave = false
+  } else { // FIXME: Should support setting the shave from url
+    config.shave = '20x20';
+  }
+
+  config.trim = config.trim !== 'none';
 
   if (config.ocrFeature === undefined) {
     config.ocrFeature = 'gcloud_document_text';
